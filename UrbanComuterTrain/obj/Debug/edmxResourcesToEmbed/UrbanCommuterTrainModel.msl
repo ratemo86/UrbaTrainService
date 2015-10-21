@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="UrbanTrainDatabaseModelStoreContainer" CdmEntityContainer="UrbanTrainDatabaseEntities4">
+    <EntitySetMapping Name="Lines">
+      <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.Line">
+        <MappingFragment StoreEntitySet="Line">
+          <ScalarProperty Name="LineId" ColumnName="LineId" />
+          <ScalarProperty Name="LineName" ColumnName="LineName" />
+          <ScalarProperty Name="LineStatusId" ColumnName="LineStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LineStatus">
+      <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.LineStatu">
+        <MappingFragment StoreEntitySet="LineStatus">
+          <ScalarProperty Name="LineStatusId" ColumnName="LineStatusId" />
+          <ScalarProperty Name="CurrentStatus" ColumnName="CurrentStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Links">
+      <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.Link">
+        <MappingFragment StoreEntitySet="Link">
+          <ScalarProperty Name="TrainNO" ColumnName="TrainNO" />
+          <ScalarProperty Name="StopId" ColumnName="StopId" />
+          <ScalarProperty Name="LineId" ColumnName="LineId" />
+          <ScalarProperty Name="LinkId" ColumnName="LinkId" />
+          <ScalarProperty Name="Href" ColumnName="Href" />
+          <ScalarProperty Name="Rel" ColumnName="Rel" />
+          <ScalarProperty Name="Method" ColumnName="Method" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stops">
+      <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.Stop">
+        <MappingFragment StoreEntitySet="Stop">
+          <ScalarProperty Name="StopId" ColumnName="StopId" />
+          <ScalarProperty Name="LineId" ColumnName="LineId" />
+          <ScalarProperty Name="StopName" ColumnName="StopName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StopSchedules">
+      <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.StopSchedule">
+        <MappingFragment StoreEntitySet="StopSchedule">
+          <ScalarProperty Name="TrainNO" ColumnName="TrainNO" />
+          <ScalarProperty Name="StopId" ColumnName="StopId" />
+          <ScalarProperty Name="ScheduledTime1" ColumnName="ScheduledTime1" />
+          <ScalarProperty Name="ScheduledTime2" ColumnName="ScheduledTime2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Trains">
+      <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.Train">
+        <MappingFragment StoreEntitySet="Train">
+          <ScalarProperty Name="TrainNO" ColumnName="TrainNO" />
+          <ScalarProperty Name="LineId" ColumnName="LineId" />
+          <ScalarProperty Name="TrainStatusId" ColumnName="TrainStatusId" />
+          <ScalarProperty Name="LastStop" ColumnName="LastStop" />
+          <ScalarProperty Name="NextStop" ColumnName="NextStop" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TrainStatus">
+      <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.TrainStatu">
+        <MappingFragment StoreEntitySet="TrainStatus">
+          <ScalarProperty Name="TrainStatusId" ColumnName="TrainStatusId" />
+          <ScalarProperty Name="CurrentStatus" ColumnName="CurrentStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="94378cef6b3442e79b69796c1f1d1bac" Name="Diagram1">
+        <EntityTypeShape EntityType="UrbanTrainDatabaseModel.Line" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UrbanTrainDatabaseModel.LineStatu" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="UrbanTrainDatabaseModel.Link" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UrbanTrainDatabaseModel.Stop" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UrbanTrainDatabaseModel.StopSchedule" Width="1.5" PointX="7.5" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UrbanTrainDatabaseModel.Train" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UrbanTrainDatabaseModel.TrainStatu" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Line_Link" ManuallyRouted="false" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Line_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Stop_Line" ManuallyRouted="false" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Train_Line" ManuallyRouted="false" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Stop_Link" ManuallyRouted="false" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Train_Link" ManuallyRouted="false" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Sche_Stop" ManuallyRouted="false" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Sche_Train" ManuallyRouted="false" />
+        <AssociationConnector Association="UrbanTrainDatabaseModel.FK_Train_Status" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

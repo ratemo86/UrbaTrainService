@@ -1,0 +1,557 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UrbanTrainDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Line">
+          <Key>
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="LineId" Type="int" Nullable="false" />
+          <Property Name="LineName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LineStatusId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LineStatus">
+          <Key>
+            <PropertyRef Name="LineStatusId" />
+          </Key>
+          <Property Name="LineStatusId" Type="int" Nullable="false" />
+          <Property Name="CurrentStatus" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Link">
+          <Key>
+            <PropertyRef Name="LinkId" />
+          </Key>
+          <Property Name="LinkId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Href" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Rel" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Method" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LineId" Type="int" />
+          <Property Name="StopId" Type="int" />
+          <Property Name="TrainNO" Type="int" />
+        </EntityType>
+        <EntityType Name="Stop">
+          <Key>
+            <PropertyRef Name="StopId" />
+          </Key>
+          <Property Name="StopId" Type="int" Nullable="false" />
+          <Property Name="LineId" Type="int" Nullable="false" />
+          <Property Name="StopName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StopSchedule">
+          <Key>
+            <PropertyRef Name="TrainNO" />
+            <PropertyRef Name="StopId" />
+            <PropertyRef Name="ScheduledTime" />
+          </Key>
+          <Property Name="TrainNO" Type="int" Nullable="false" />
+          <Property Name="StopId" Type="int" Nullable="false" />
+          <Property Name="ScheduledTime" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Train">
+          <Key>
+            <PropertyRef Name="TrainNO" />
+          </Key>
+          <Property Name="TrainNO" Type="int" Nullable="false" />
+          <Property Name="LineId" Type="int" Nullable="false" />
+          <Property Name="TrainStatusId" Type="int" Nullable="false" />
+          <Property Name="LastStop" Type="varchar" MaxLength="50" />
+          <Property Name="NextStop" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TrainStatus">
+          <Key>
+            <PropertyRef Name="TrainStatusId" />
+          </Key>
+          <Property Name="TrainStatusId" Type="int" Nullable="false" />
+          <Property Name="CurrentStatus" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Line_Link">
+          <End Role="Line" Type="Self.Line" Multiplicity="0..1" />
+          <End Role="Link" Type="Self.Link" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Line">
+              <PropertyRef Name="LineId" />
+            </Principal>
+            <Dependent Role="Link">
+              <PropertyRef Name="LineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Line_Status">
+          <End Role="LineStatus" Type="Self.LineStatus" Multiplicity="1" />
+          <End Role="Line" Type="Self.Line" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LineStatus">
+              <PropertyRef Name="LineStatusId" />
+            </Principal>
+            <Dependent Role="Line">
+              <PropertyRef Name="LineStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sche_Stop">
+          <End Role="Stop" Type="Self.Stop" Multiplicity="1" />
+          <End Role="StopSchedule" Type="Self.StopSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stop">
+              <PropertyRef Name="StopId" />
+            </Principal>
+            <Dependent Role="StopSchedule">
+              <PropertyRef Name="StopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sche_Train">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="StopSchedule" Type="Self.StopSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="TrainNO" />
+            </Principal>
+            <Dependent Role="StopSchedule">
+              <PropertyRef Name="TrainNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stop_Line">
+          <End Role="Line" Type="Self.Line" Multiplicity="1" />
+          <End Role="Stop" Type="Self.Stop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Line">
+              <PropertyRef Name="LineId" />
+            </Principal>
+            <Dependent Role="Stop">
+              <PropertyRef Name="LineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stop_Link">
+          <End Role="Stop" Type="Self.Stop" Multiplicity="0..1" />
+          <End Role="Link" Type="Self.Link" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stop">
+              <PropertyRef Name="StopId" />
+            </Principal>
+            <Dependent Role="Link">
+              <PropertyRef Name="StopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Train_Line">
+          <End Role="Line" Type="Self.Line" Multiplicity="1" />
+          <End Role="Train" Type="Self.Train" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Line">
+              <PropertyRef Name="LineId" />
+            </Principal>
+            <Dependent Role="Train">
+              <PropertyRef Name="LineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Train_Link">
+          <End Role="Train" Type="Self.Train" Multiplicity="0..1" />
+          <End Role="Link" Type="Self.Link" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="TrainNO" />
+            </Principal>
+            <Dependent Role="Link">
+              <PropertyRef Name="TrainNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Train_Status">
+          <End Role="TrainStatus" Type="Self.TrainStatus" Multiplicity="1" />
+          <End Role="Train" Type="Self.Train" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainStatus">
+              <PropertyRef Name="TrainStatusId" />
+            </Principal>
+            <Dependent Role="Train">
+              <PropertyRef Name="TrainStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UrbanTrainDatabaseModelStoreContainer">
+          <EntitySet Name="Line" EntityType="Self.Line" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LineStatus" EntityType="Self.LineStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Link" EntityType="Self.Link" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stop" EntityType="Self.Stop" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StopSchedule" EntityType="Self.StopSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Train" EntityType="Self.Train" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainStatus" EntityType="Self.TrainStatus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Line_Link" Association="Self.FK_Line_Link">
+            <End Role="Line" EntitySet="Line" />
+            <End Role="Link" EntitySet="Link" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Line_Status" Association="Self.FK_Line_Status">
+            <End Role="LineStatus" EntitySet="LineStatus" />
+            <End Role="Line" EntitySet="Line" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sche_Stop" Association="Self.FK_Sche_Stop">
+            <End Role="Stop" EntitySet="Stop" />
+            <End Role="StopSchedule" EntitySet="StopSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sche_Train" Association="Self.FK_Sche_Train">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="StopSchedule" EntitySet="StopSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stop_Line" Association="Self.FK_Stop_Line">
+            <End Role="Line" EntitySet="Line" />
+            <End Role="Stop" EntitySet="Stop" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stop_Link" Association="Self.FK_Stop_Link">
+            <End Role="Stop" EntitySet="Stop" />
+            <End Role="Link" EntitySet="Link" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Train_Line" Association="Self.FK_Train_Line">
+            <End Role="Line" EntitySet="Line" />
+            <End Role="Train" EntitySet="Train" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Train_Link" Association="Self.FK_Train_Link">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Link" EntitySet="Link" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Train_Status" Association="Self.FK_Train_Status">
+            <End Role="TrainStatus" EntitySet="TrainStatus" />
+            <End Role="Train" EntitySet="Train" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UrbanTrainDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Line">
+          <Key>
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="LineId" Type="Int32" Nullable="false" />
+          <Property Name="LineName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LineStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Links" Relationship="Self.FK_Line_Link" FromRole="Line" ToRole="Link" />
+          <NavigationProperty Name="LineStatu" Relationship="Self.FK_Line_Status" FromRole="Line" ToRole="LineStatus" />
+          <NavigationProperty Name="Stops" Relationship="Self.FK_Stop_Line" FromRole="Line" ToRole="Stop" />
+          <NavigationProperty Name="Trains" Relationship="Self.FK_Train_Line" FromRole="Line" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="LineStatu">
+          <Key>
+            <PropertyRef Name="LineStatusId" />
+          </Key>
+          <Property Name="LineStatusId" Type="Int32" Nullable="false" />
+          <Property Name="CurrentStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Lines" Relationship="Self.FK_Line_Status" FromRole="LineStatus" ToRole="Line" />
+        </EntityType>
+        <EntityType Name="Link">
+          <Key>
+            <PropertyRef Name="LinkId" />
+          </Key>
+          <Property Name="LinkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Href" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Method" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LineId" Type="Int32" />
+          <Property Name="StopId" Type="Int32" />
+          <Property Name="TrainNO" Type="Int32" />
+          <NavigationProperty Name="Line" Relationship="Self.FK_Line_Link" FromRole="Link" ToRole="Line" />
+          <NavigationProperty Name="Stop" Relationship="Self.FK_Stop_Link" FromRole="Link" ToRole="Stop" />
+          <NavigationProperty Name="Train" Relationship="Self.FK_Train_Link" FromRole="Link" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="Stop">
+          <Key>
+            <PropertyRef Name="StopId" />
+          </Key>
+          <Property Name="StopId" Type="Int32" Nullable="false" />
+          <Property Name="LineId" Type="Int32" Nullable="false" />
+          <Property Name="StopName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Line" Relationship="Self.FK_Stop_Line" FromRole="Stop" ToRole="Line" />
+          <NavigationProperty Name="Links" Relationship="Self.FK_Stop_Link" FromRole="Stop" ToRole="Link" />
+          <NavigationProperty Name="StopSchedules" Relationship="Self.FK_Sche_Stop" FromRole="Stop" ToRole="StopSchedule" />
+        </EntityType>
+        <EntityType Name="StopSchedule">
+          <Key>
+            <PropertyRef Name="TrainNO" />
+            <PropertyRef Name="StopId" />
+            <PropertyRef Name="ScheduledTime" />
+          </Key>
+          <Property Name="TrainNO" Type="Int32" Nullable="false" />
+          <Property Name="StopId" Type="Int32" Nullable="false" />
+          <Property Name="ScheduledTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Stop" Relationship="Self.FK_Sche_Stop" FromRole="StopSchedule" ToRole="Stop" />
+          <NavigationProperty Name="Train" Relationship="Self.FK_Sche_Train" FromRole="StopSchedule" ToRole="Train" />
+        </EntityType>
+        <EntityType Name="Train">
+          <Key>
+            <PropertyRef Name="TrainNO" />
+          </Key>
+          <Property Name="TrainNO" Type="Int32" Nullable="false" />
+          <Property Name="LineId" Type="Int32" Nullable="false" />
+          <Property Name="TrainStatusId" Type="Int32" Nullable="false" />
+          <Property Name="LastStop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NextStop" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Line" Relationship="Self.FK_Train_Line" FromRole="Train" ToRole="Line" />
+          <NavigationProperty Name="Links" Relationship="Self.FK_Train_Link" FromRole="Train" ToRole="Link" />
+          <NavigationProperty Name="StopSchedules" Relationship="Self.FK_Sche_Train" FromRole="Train" ToRole="StopSchedule" />
+          <NavigationProperty Name="TrainStatu" Relationship="Self.FK_Train_Status" FromRole="Train" ToRole="TrainStatus" />
+        </EntityType>
+        <EntityType Name="TrainStatu">
+          <Key>
+            <PropertyRef Name="TrainStatusId" />
+          </Key>
+          <Property Name="TrainStatusId" Type="Int32" Nullable="false" />
+          <Property Name="CurrentStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Trains" Relationship="Self.FK_Train_Status" FromRole="TrainStatus" ToRole="Train" />
+        </EntityType>
+        <Association Name="FK_Line_Link">
+          <End Role="Line" Type="Self.Line" Multiplicity="0..1" />
+          <End Role="Link" Type="Self.Link" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Line">
+              <PropertyRef Name="LineId" />
+            </Principal>
+            <Dependent Role="Link">
+              <PropertyRef Name="LineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Line_Status">
+          <End Role="LineStatus" Type="Self.LineStatu" Multiplicity="1" />
+          <End Role="Line" Type="Self.Line" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LineStatus">
+              <PropertyRef Name="LineStatusId" />
+            </Principal>
+            <Dependent Role="Line">
+              <PropertyRef Name="LineStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stop_Line">
+          <End Role="Line" Type="Self.Line" Multiplicity="1" />
+          <End Role="Stop" Type="Self.Stop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Line">
+              <PropertyRef Name="LineId" />
+            </Principal>
+            <Dependent Role="Stop">
+              <PropertyRef Name="LineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Train_Line">
+          <End Role="Line" Type="Self.Line" Multiplicity="1" />
+          <End Role="Train" Type="Self.Train" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Line">
+              <PropertyRef Name="LineId" />
+            </Principal>
+            <Dependent Role="Train">
+              <PropertyRef Name="LineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stop_Link">
+          <End Role="Stop" Type="Self.Stop" Multiplicity="0..1" />
+          <End Role="Link" Type="Self.Link" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stop">
+              <PropertyRef Name="StopId" />
+            </Principal>
+            <Dependent Role="Link">
+              <PropertyRef Name="StopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Train_Link">
+          <End Role="Train" Type="Self.Train" Multiplicity="0..1" />
+          <End Role="Link" Type="Self.Link" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="TrainNO" />
+            </Principal>
+            <Dependent Role="Link">
+              <PropertyRef Name="TrainNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sche_Stop">
+          <End Role="Stop" Type="Self.Stop" Multiplicity="1" />
+          <End Role="StopSchedule" Type="Self.StopSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stop">
+              <PropertyRef Name="StopId" />
+            </Principal>
+            <Dependent Role="StopSchedule">
+              <PropertyRef Name="StopId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sche_Train">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="StopSchedule" Type="Self.StopSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="TrainNO" />
+            </Principal>
+            <Dependent Role="StopSchedule">
+              <PropertyRef Name="TrainNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Train_Status">
+          <End Role="TrainStatus" Type="Self.TrainStatu" Multiplicity="1" />
+          <End Role="Train" Type="Self.Train" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainStatus">
+              <PropertyRef Name="TrainStatusId" />
+            </Principal>
+            <Dependent Role="Train">
+              <PropertyRef Name="TrainStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Lines" EntityType="Self.Line" />
+          <EntitySet Name="LineStatus" EntityType="Self.LineStatu" />
+          <EntitySet Name="Links" EntityType="Self.Link" />
+          <EntitySet Name="Stops" EntityType="Self.Stop" />
+          <EntitySet Name="StopSchedules" EntityType="Self.StopSchedule" />
+          <EntitySet Name="Trains" EntityType="Self.Train" />
+          <EntitySet Name="TrainStatus" EntityType="Self.TrainStatu" />
+          <AssociationSet Name="FK_Line_Link" Association="Self.FK_Line_Link">
+            <End Role="Line" EntitySet="Lines" />
+            <End Role="Link" EntitySet="Links" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Line_Status" Association="Self.FK_Line_Status">
+            <End Role="LineStatus" EntitySet="LineStatus" />
+            <End Role="Line" EntitySet="Lines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stop_Line" Association="Self.FK_Stop_Line">
+            <End Role="Line" EntitySet="Lines" />
+            <End Role="Stop" EntitySet="Stops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Train_Line" Association="Self.FK_Train_Line">
+            <End Role="Line" EntitySet="Lines" />
+            <End Role="Train" EntitySet="Trains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stop_Link" Association="Self.FK_Stop_Link">
+            <End Role="Stop" EntitySet="Stops" />
+            <End Role="Link" EntitySet="Links" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Train_Link" Association="Self.FK_Train_Link">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="Link" EntitySet="Links" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sche_Stop" Association="Self.FK_Sche_Stop">
+            <End Role="Stop" EntitySet="Stops" />
+            <End Role="StopSchedule" EntitySet="StopSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sche_Train" Association="Self.FK_Sche_Train">
+            <End Role="Train" EntitySet="Trains" />
+            <End Role="StopSchedule" EntitySet="StopSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Train_Status" Association="Self.FK_Train_Status">
+            <End Role="TrainStatus" EntitySet="TrainStatus" />
+            <End Role="Train" EntitySet="Trains" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UrbanTrainDatabaseModelStoreContainer" CdmEntityContainer="UTEntities">
+          <EntitySetMapping Name="Lines">
+            <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.Line">
+              <MappingFragment StoreEntitySet="Line">
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+                <ScalarProperty Name="LineName" ColumnName="LineName" />
+                <ScalarProperty Name="LineStatusId" ColumnName="LineStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LineStatus">
+            <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.LineStatu">
+              <MappingFragment StoreEntitySet="LineStatus">
+                <ScalarProperty Name="LineStatusId" ColumnName="LineStatusId" />
+                <ScalarProperty Name="CurrentStatus" ColumnName="CurrentStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Links">
+            <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.Link">
+              <MappingFragment StoreEntitySet="Link">
+                <ScalarProperty Name="LinkId" ColumnName="LinkId" />
+                <ScalarProperty Name="Href" ColumnName="Href" />
+                <ScalarProperty Name="Rel" ColumnName="Rel" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+                <ScalarProperty Name="StopId" ColumnName="StopId" />
+                <ScalarProperty Name="TrainNO" ColumnName="TrainNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stops">
+            <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.Stop">
+              <MappingFragment StoreEntitySet="Stop">
+                <ScalarProperty Name="StopId" ColumnName="StopId" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+                <ScalarProperty Name="StopName" ColumnName="StopName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StopSchedules">
+            <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.StopSchedule">
+              <MappingFragment StoreEntitySet="StopSchedule">
+                <ScalarProperty Name="TrainNO" ColumnName="TrainNO" />
+                <ScalarProperty Name="StopId" ColumnName="StopId" />
+                <ScalarProperty Name="ScheduledTime" ColumnName="ScheduledTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trains">
+            <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.Train">
+              <MappingFragment StoreEntitySet="Train">
+                <ScalarProperty Name="TrainNO" ColumnName="TrainNO" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+                <ScalarProperty Name="TrainStatusId" ColumnName="TrainStatusId" />
+                <ScalarProperty Name="LastStop" ColumnName="LastStop" />
+                <ScalarProperty Name="NextStop" ColumnName="NextStop" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainStatus">
+            <EntityTypeMapping TypeName="UrbanTrainDatabaseModel.TrainStatu">
+              <MappingFragment StoreEntitySet="TrainStatus">
+                <ScalarProperty Name="TrainStatusId" ColumnName="TrainStatusId" />
+                <ScalarProperty Name="CurrentStatus" ColumnName="CurrentStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
