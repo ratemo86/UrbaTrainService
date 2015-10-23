@@ -9,8 +9,9 @@ namespace UrbanComuterTrain.Models
     {
 
         public int LineId { get; set; }
-        public int LineStatusId { get; set; }
-       // public string LineStatus { get; set; }
+       // public int LineStatusId { get; set; }
+       
+        public string LineStatus { get; set; }
         public LinkModel LineLink { get; set; }
       
         public string LineName { get; set; }

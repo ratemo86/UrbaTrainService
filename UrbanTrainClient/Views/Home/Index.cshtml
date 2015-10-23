@@ -1,8 +1,169 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<script src="~/Scripts/jquery.validate-vsdoc.js"></script>
+<script src="~/Scripts/_references.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/respond.min.js"></script>
 
-<div class="jumbotron">
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#divStopsTrain").hide();
+        $.ajax({
+            //url: "http://localhost:60013",
+            url: "/Home/Lines",
+            type: "Post",
+            data:{},
+            dataType: "text",
+            contentType: "application/text",
+            success: function (data) {
+              
+                
+                data = JSON.parse(data);
+
+                for (i = 0; i < data.length; i++)
+                {
+                    var lineDetails = "<a href=" + data[i].Href + " class=\"line\">" + data[i].LineName + " details</a>";
+                    var lineRow = "<tr id=\"trLine"+ data[i].LineId +"\"><td>" + data[i].LineId + "</td><td>" + data[i].LineName + "</td><td>" + data[i].LineStatus + "</td><td>" + lineDetails + "</td></tr>";
+
+                    $(lineRow).appendTo($("#lines"));
+                }
+
+              
+                //$('#body').text(data);
+            },
+            error: function (msg) {
+                alert("Error");
+               
+            }
+        });
+
+
+        $("body").on("click", ".line", function (e) {
+
+            e.preventDefault();
+
+            var ref = $(this).attr('href');
+            var href = JSON.stringify({ href: ref });
+            var idOfRowCliked = $(this).closest("tr").attr("id");
+
+            //alert(idOfRowCliked);
+            //$("#lines tr tr[id !=" + idOfRowCliked + " ]").hide();
+            
+            $.ajax({
+                //url: "http://localhost:60013",
+                url: "/Home/GetLine",
+                type: "Post",
+                data: href,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#divStopsTrain").show()
+
+                    
+                   // alert(data.LineStops[1].Href);
+                 
+
+                    for (i = 0; i < data.LineStops.length; i++)
+                    {
+                       if (data.LineStops[i].NextTrain == undefined || data.LineStops[i].NextTrain == null)
+                        {
+                            data.LineStops[i].NextTrain = "";
+                        
+                        }
+                        if (data.LineStops[i].NextTrain==0)
+                        {
+                            data.LineStops[i].NextTrain = "";
+                        }
+                        var stopRow = "<tr id=\"trStop" + data.LineStops[i].StopID + "\"><td>"   + data.LineStops[i].StopID + "</td><td>" + data.LineStops[i].StopName + "</td><td>" + data.LineStops[i].NextTrain + "</td></tr>";
+                       
+                       
+                        $(stopRow).appendTo($("#stops"));
+                    }
+
+                    for (i = 0; i < data.LineTrains.length; i++) {
+
+                        var trainRow = "<tr id=\"trTrain" + data.LineTrains[i].TrainNO + "\"><td>" + data.LineTrains[i].TrainNO + "</td><td>" + data.LineTrains[i].CurrentLocation + "</td></tr>";
+
+                       
+                        $(trainRow).appendTo($("#trains"));
+                    }
+
+
+                },
+                error: function (msg) {
+                    alert("Error");
+
+                }
+            });
+
+            ;
+
+        });
+
+
+      
+
+        
+    });
+
+
+</script>
+
+<h4>Urban Communuter Train</h4>
+
+<div id="body">
+    <div>
+
+        <section class="content-wrapper main-content">
+            <table id="lines" class="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayName("Line ID")</th>
+                        <th>@Html.DisplayName("Line Name")</th>
+                        <th>@Html.DisplayName("Line Status")</th>
+                        <th>@Html.DisplayName("Line Details")</th>
+                    </tr>
+                </thead>
+            </table>
+            <div id="divStopsTrain" style="width:70%; float:right;">
+                
+                <div id="divStops" style="float:left; padding:2%;">
+                    <p>STOPS</p>
+                    <table id="stops" class="table">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayName("Stop ID")</th>
+                                <th>@Html.DisplayName("Stop Name")</th>
+                                <th>@Html.DisplayName("Next Train")</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div id="divTrains" style="float:left; padding:2%;">
+                    <p>Trains</p>
+                    <table id="trains" class="table">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayName("Train Number")</th>
+                                <th>@Html.DisplayName("Current Location")</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div id="divStopsTrain" style="width:70%; float:right;">
+        </section>
+    </div>
+    
+</div>  
+
+
+
+@*<div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
@@ -28,4 +189,4 @@
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
-</div>
+</div>*@

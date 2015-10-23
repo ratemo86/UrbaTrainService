@@ -121,7 +121,7 @@ using UrbanComuterTrain.Repositories;
         //}
 
         // POST: api/Lines
-        [ResponseType(typeof(Line))]
+       // [ResponseType(typeof(Line))]
         //public IHttpActionResult PostLine(Line line)
         //{
         //    if (!ModelState.IsValid)

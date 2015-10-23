@@ -31,6 +31,12 @@ C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\Newto
 C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\System.Net.Http.Formatting.xml
 C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\System.Web.Http.xml
 C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\System.Web.Http.WebHost.xml
-C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\obj\Debug\UrbanComuterTrain.csprojResolveAssemblyReference.cache
 C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\obj\Debug\UrbanComuterTrain.dll
 C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\obj\Debug\UrbanComuterTrain.pdb
+C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\AutoMapper.dll
+C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\Moq.dll
+C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\nunit.framework.dll
+C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\AutoMapper.xml
+C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\Moq.xml
+C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\bin\nunit.framework.xml
+C:\Users\Jairus\Desktop\CapitalOne\UrbanComuterTrain\UrbanComuterTrain\obj\Debug\UrbanComuterTrain.csprojResolveAssemblyReference.cache

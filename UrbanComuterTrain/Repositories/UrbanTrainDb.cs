@@ -29,12 +29,20 @@ namespace UrbanComuterTrain.Repositories
         }
         public List<LineModel> GetAllLines()
         {
-            List<LineModel> lineModels = UrbanTrainDatabase.Lines.Select(x => new LineModel
+            List<LineModel> lineModels = new List<LineModel>();
+
+            foreach (var line in UrbanTrainDatabase.Lines)
             {
-                LineId = x.LineId,
-                LineName = x.LineName,
-                LineStatusId = x.LineStatusId,
-            }).ToList();
+                LineModel lineModel = new LineModel {
+
+
+                    LineId = line.LineId,
+                    LineName = line.LineName
+                };
+
+                lineModel.LineStatus = UrbanTrainDatabase.LineStatus.Where(x=>x.LineStatusId == line.LineStatusId).Select(y=>y.CurrentStatus).First();
+                lineModels.Add(lineModel);
+            }
             return lineModels;
 
         }
@@ -115,22 +123,6 @@ namespace UrbanComuterTrain.Repositories
                     };
                     stopModel.NextTrain = GetStopNextTrain(stop.StopId);
                     allStopModels.Add(stopModel);
-                
-
-                //allStopModels.Add(new StopModel
-                //{
-                //    StopId = stop.StopId,
-                //    LineId = stop.LineId,
-                //    StopName = stop.StopName,
-                //    MainStopLink = new LinkModel 
-                //    {
-                //        Href = "http://localhost:60013/api/Stops/" + stop.StopId,
-                //        Rel = stop.StopName,
-                //        Method = "GET"
-                //    }
-
-
-                //});
             }
             return allStopModels;
         }
